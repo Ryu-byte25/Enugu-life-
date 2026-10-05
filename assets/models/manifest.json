@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "player": "assets/models/characters/player.glb",
+  "homes": [
+    "assets/models/interiors/campus-lodge.glb",
+    "assets/models/interiors/nsukka-self-contain.glb",
+    "assets/models/interiors/enugu-flat.glb",
+    "assets/models/interiors/gra-apartment.glb"
+  ],
+  "vehicles": {
+    "corolla": "assets/models/vehicles/corolla.glb"
+  },
+  "npcs": {
+    "ada": "assets/models/characters/ada.glb",
+    "emeka": "assets/models/characters/emeka.glb",
+    "chisom": "assets/models/characters/chisom.glb"
+  },
+  "districts": [
+    "assets/models/enugu/nsukka-unn.glb",
+    "assets/models/enugu/gra.glb",
+    "assets/models/enugu/trans-ekulu.glb",
+    "assets/models/enugu/abakpa-nike.glb",
+    "assets/models/enugu/emene.glb",
+    "assets/models/enugu/new-haven.glb",
+    "assets/models/enugu/ogui-asata.glb",
+    "assets/models/enugu/ogbete.glb",
+    "assets/models/enugu/independence-layout.glb",
+    "assets/models/enugu/thinkers-corner.glb",
+    "assets/models/enugu/uwani.glb",
+    "assets/models/enugu/achara-layout.glb",
+    "assets/models/enugu/nike-lake.glb"
+  ],
+  "animations": [
+    "Idle",
+    "Walk",
+    "Run",
+    "Sit",
+    "Sleep",
+    "UsePhone",
+    "Type",
+    "Eat",
+    "Talk"
+  ]
+}
