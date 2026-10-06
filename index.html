@@ -1,4 +1,27 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#07150d"><title>Enugu Life</title><link rel="stylesheet" href="style.css?v=84"><script src="https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.min.js" defer></script><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"}}</script><script type="module">import("three/addons/loaders/GLTFLoader.js").then(m=>{window.GLTFLoader=m.GLTFLoader;return import("./src/assetRuntime.js?v=84").then(()=>import("./src/campusLodge.js?v=84"))}).then(()=>window.dispatchEvent(new Event("enugu-assets-ready"))).catch(e=>console.warn("Optional 3D assets unavailable; using fallback.",e));</script></head><body>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#07150d"><title>Enugu Life</title><link rel="stylesheet" href="style.css?v=85"><script src="https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.min.js" defer></script><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"}}</script><script type="module">import("three/addons/loaders/GLTFLoader.js").then(m=>{window.GLTFLoader=m.GLTFLoader;return import("./src/assetRuntime.js?v=85").then(()=>import("./src/campusLodge.js?v=85"))}).then(()=>window.dispatchEvent(new Event("enugu-assets-ready"))).catch(e=>console.warn("Optional 3D assets unavailable; using fallback.",e));</script></head><body>
 <section id="onboarding" class="onboarding"><div class="start-card"><div class="logo">EL</div><small>ENUGU LIFE</small><h1>Start your story.</h1><p>From Nsukka hustle to Enugu success. Study, work, build businesses, meet people and own the city.</p><label>Your name</label><input id="nameInput" type="text" maxlength="18" autocomplete="off" placeholder="e.g. Ryu"><label>Choose your edge</label><div id="traits" class="traits"><button type="button" data-trait="hustler" class="selected">💼<b>Hustler</b><span>Earn more from gigs</span></button><button type="button" data-trait="techie">💻<b>Techie</b><span>Learn coding faster</span></button><button type="button" data-trait="social">🗣️<b>Social</b><span>Build bonds faster</span></button><button type="button" data-trait="book">📚<b>Book Smart</b><span>Study faster</span></button></div><button type="button" id="startButton" class="start">Start my life →</button><p id="startError" class="error"></p></div></section>
 <div id="game" class="game hidden"><header><div><small>ENUGU LIFE</small><h1 id="greeting"></h1><p id="meta"></p></div><div class="wallet"><span>CASH</span><b id="cash"></b></div></header><section id="needs" class="needs"></section><main id="view"></main><nav id="nav" class="dock"></nav><footer><span id="footerText"></span><button id="resetButton">New life</button></footer></div>
-<div id="toast" class="toast"></div><script src="game.js?v=84"></script></body></html>
+<div id="toast" class="toast"></div>
+<script>
+(function(){
+  var trait="hustler", traits=document.getElementById("traits"), start=document.getElementById("startButton");
+  if(traits) traits.addEventListener("click",function(e){
+    var b=e.target.closest("button[data-trait]"); if(!b)return;
+    trait=b.getAttribute("data-trait");
+    traits.querySelectorAll("button").forEach(function(x){x.classList.remove("selected")});
+    b.classList.add("selected");
+  });
+  if(start) start.onclick=function(){
+    var input=document.getElementById("nameInput"), name=(input&&input.value||"").trim(), err=document.getElementById("startError");
+    if(!name){if(err)err.textContent="Enter your name first.";return;}
+    var skills={hustle:1,coding:1,charisma:1,academics:1};
+    var key={hustler:"hustle",techie:"coding",social:"charisma",book:"academics"}[trait]||"hustle"; skills[key]++;
+    var state={name:name,trait:trait,cash:30000,debt:0,day:1,week:1,place:0,home:0,job:-1,semester:1,graduate:false,rep:0,car:false,px:48,py:70,needs:{hunger:85,energy:90,fun:70,social:65},skills:skills,businesses:[],friends:{Ada:10,Emeka:15,Chisom:8},log:["Your story begins in Nsukka."],tab:"home",interior:null};
+    try{localStorage.setItem("enuguLifeV4",JSON.stringify(state))}catch(e){}
+    document.getElementById("onboarding").classList.add("hidden");
+    document.getElementById("game").classList.remove("hidden");
+    window.dispatchEvent(new CustomEvent("enugu-start",{detail:state}));
+  };
+})();
+</script>
+<script src="game.js?v=85"></script></body></html>
