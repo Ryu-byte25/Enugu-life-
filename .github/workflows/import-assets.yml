@@ -1,0 +1,77 @@
+name: Import Enugu Life GLB assets
+
+on:
+  push:
+    paths:
+      - ".github/workflows/import-assets.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  import-assets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download CC0 Kenney packs
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/enugu-assets
+          curl -L --fail --retry 3 "https://kenney.nl/media/pages/assets/mini-characters/bfc7e272b4-1774770718/kenney_mini-characters.zip" -o /tmp/enugu-assets/characters.zip
+          curl -L --fail --retry 3 "https://kenney.nl/media/pages/assets/furniture-kit/440e0608a4-1677580847/kenney_furniture-kit.zip" -o /tmp/enugu-assets/furniture.zip
+          curl -L --fail --retry 3 "https://kenney.nl/media/pages/assets/city-kit-suburban/2c871b7af2-1745479373/kenney_city-kit-suburban_20.zip" -o /tmp/enugu-assets/suburban.zip
+          curl -L --fail --retry 3 "https://kenney.nl/media/pages/assets/city-kit-roads/74288c9459-1787042796/kenney_city-kit-roads.zip" -o /tmp/enugu-assets/roads.zip
+          unzip -q /tmp/enugu-assets/characters.zip -d /tmp/enugu-assets/characters
+          unzip -q /tmp/enugu-assets/furniture.zip -d /tmp/enugu-assets/furniture
+          unzip -q /tmp/enugu-assets/suburban.zip -d /tmp/enugu-assets/suburban
+          unzip -q /tmp/enugu-assets/roads.zip -d /tmp/enugu-assets/roads
+
+      - name: Import selected GLBs one by one
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          import_asset () {
+            src="$1"
+            dst="$2"
+            label="$3"
+            mkdir -p "$(dirname "$dst")"
+            cp "$src" "$dst"
+            git add "$dst"
+            if ! git diff --cached --quiet; then
+              git commit -m "Add GLB asset: $label"
+            fi
+          }
+
+          import_asset "/tmp/enugu-assets/characters/Models/GLB format/character-male-b.glb" "assets/models/characters/player.glb" "animated player"
+
+          import_asset "/tmp/enugu-assets/furniture/Models/GLTF format/bedSingle.glb" "assets/models/furniture/bedSingle.glb" "single bed"
+          import_asset "/tmp/enugu-assets/furniture/Models/GLTF format/desk.glb" "assets/models/furniture/desk.glb" "desk"
+          import_asset "/tmp/enugu-assets/furniture/Models/GLTF format/chairDesk.glb" "assets/models/furniture/chairDesk.glb" "desk chair"
+          import_asset "/tmp/enugu-assets/furniture/Models/GLTF format/laptop.glb" "assets/models/furniture/laptop.glb" "laptop"
+          import_asset "/tmp/enugu-assets/furniture/Models/GLTF format/kitchenFridge.glb" "assets/models/furniture/kitchenFridge.glb" "fridge"
+          import_asset "/tmp/enugu-assets/furniture/Models/GLTF format/kitchenStove.glb" "assets/models/furniture/kitchenStove.glb" "stove"
+          import_asset "/tmp/enugu-assets/furniture/Models/GLTF format/loungeSofa.glb" "assets/models/furniture/loungeSofa.glb" "sofa"
+          import_asset "/tmp/enugu-assets/furniture/Models/GLTF format/cabinetTelevision.glb" "assets/models/furniture/cabinetTelevision.glb" "TV cabinet"
+          import_asset "/tmp/enugu-assets/furniture/Models/GLTF format/bookcaseClosed.glb" "assets/models/furniture/bookcaseClosed.glb" "wardrobe bookcase"
+          import_asset "/tmp/enugu-assets/furniture/Models/GLTF format/lampRoundFloor.glb" "assets/models/furniture/lampRoundFloor.glb" "floor lamp"
+          import_asset "/tmp/enugu-assets/furniture/Models/GLTF format/plantSmall2.glb" "assets/models/furniture/plantSmall2.glb" "plant"
+
+          import_asset "/tmp/enugu-assets/suburban/Models/GLB format/building-type-a.glb" "assets/models/enugu/building-type-a.glb" "building A"
+          import_asset "/tmp/enugu-assets/suburban/Models/GLB format/building-type-f.glb" "assets/models/enugu/building-type-f.glb" "building F"
+          import_asset "/tmp/enugu-assets/suburban/Models/GLB format/building-type-k.glb" "assets/models/enugu/building-type-k.glb" "building K"
+          import_asset "/tmp/enugu-assets/suburban/Models/GLB format/tree-large.glb" "assets/models/enugu/tree-large.glb" "large tree"
+          import_asset "/tmp/enugu-assets/suburban/Models/GLB format/tree-small.glb" "assets/models/enugu/tree-small.glb" "small tree"
+
+          import_asset "/tmp/enugu-assets/roads/Models/GLB format/road-straight.glb" "assets/models/enugu/road-straight.glb" "straight road"
+          import_asset "/tmp/enugu-assets/roads/Models/GLB format/road-crossroad.glb" "assets/models/enugu/road-crossroad.glb" "crossroad"
+          import_asset "/tmp/enugu-assets/roads/Models/GLB format/road-crossing.glb" "assets/models/enugu/road-crossing.glb" "pedestrian crossing"
+          import_asset "/tmp/enugu-assets/roads/Models/GLB format/light-square.glb" "assets/models/enugu/light-square.glb" "streetlight"
+          import_asset "/tmp/enugu-assets/roads/Models/GLB format/electricity-pole.glb" "assets/models/enugu/electricity-pole.glb" "electricity pole"
+
+          git push origin HEAD:main
