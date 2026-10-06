@@ -1,7 +1,7 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#07150d"><title>Enugu Life</title><link rel="stylesheet" href="style.css?v=90"><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"}}</script><script type="module">
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#07150d"><title>Enugu Life</title><link rel="stylesheet" href="style.css?v=91"><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"}}</script><script type="module">
 import * as THREE from "three";
 window.THREE=THREE;
-Promise.all([import("./src/assetRuntime.js?v=90"),import("./src/campusLodge.js?v=90"),import("./src/enuguWorld.js?v=90")])
+Promise.all([import("./src/assetRuntime.js?v=91"),import("./src/campusLodge.js?v=91"),import("./src/enuguWorld.js?v=91")])
 .then(()=>{window.__ENUGU_3D_READY__=true;window.dispatchEvent(new Event("enugu-assets-ready"));})
 .catch(e=>{window.__ENUGU_3D_ERROR__=String(e&&e.message||e);console.error("Enugu 3D boot failed",e);window.dispatchEvent(new Event("enugu-assets-error"));});
 </script></head><body>
@@ -30,4 +30,4 @@ Promise.all([import("./src/assetRuntime.js?v=90"),import("./src/campusLodge.js?v
   };
 })();
 </script>
-<script src="game.js?v=90"></script></body></html>
+<script src="game.js?v=91"></script></body></html>
